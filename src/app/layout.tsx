@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/components/header";
 
 export const metadata: Metadata = {
   title: "Devmotors | Compre, venda carros em todo Brasil",
@@ -15,10 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` antialiased`}>
-        <Header />
-        {children}
-      </body>
+      <body className={` antialiased`}>{children}</body>
     </html>
   );
 }
