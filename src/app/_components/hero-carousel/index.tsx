@@ -28,11 +28,7 @@ export function CarouselPlugin() {
   ];
 
   return (
-    <Carousel
-      plugins={[plugin.current]}
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
-    >
+    <Carousel plugins={[plugin.current]}>
       <CarouselContent>
         {carouselImages.map((img, index) => (
           <CarouselItem key={index} className="w-full">
@@ -40,7 +36,7 @@ export function CarouselPlugin() {
               <Image
                 src={img}
                 alt="Carousel image"
-                className="object-cover h-[200px] sm:h-auto"
+                className="object-cover h-[200px] sm:h-auto w-full"
                 sizes="100vw"
                 priority
                 quality={100}
