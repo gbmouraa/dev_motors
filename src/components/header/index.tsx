@@ -10,13 +10,15 @@ export function Header() {
           <Link href="/">
             <span className="text-xl font-bold">devmotors</span>
           </Link>
-          <Link
-            href="/login"
-            className="flex items-start gap-1 text-[13px] font-bold"
-          >
-            <FaRegUserCircle size={20} />
-            Entrar
-          </Link>
+          <div className="border-l border-gray-200 h-14 flex items-center pl-6">
+            <Link
+              href="/login"
+              className="flex items-start gap-1 text-[13px] font-bold"
+            >
+              <FaRegUserCircle size={20} />
+              Entrar
+            </Link>
+          </div>
         </div>
       </Container>
     </header>
