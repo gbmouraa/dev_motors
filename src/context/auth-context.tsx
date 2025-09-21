@@ -2,29 +2,39 @@
 
 import { createContext, useEffect, useState } from "react";
 import {
-  onAuthStateChanged,
-  User,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+
+interface UserProps {
+  uid: string;
+  email: string;
+  name: string;
+}
 
 interface AuthContextProps {
-  user: User | null;
-  loading: boolean;
+  user: UserProps | null;
   email: string;
+  name: string;
+  loading: boolean;
   handleEmail: (email: string) => void;
+  handleName: (name: string) => void;
   login: (email: string, password: string) => Promise<void>;
-  sigin: (email: string, password: string) => Promise<void>;
+  sigin: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
-  loading: true,
   email: "",
+  name: "",
+  loading: true,
   handleEmail: () => {},
+  handleName: () => {},
   login: async () => {},
   sigin: async () => {},
   logout: async () => {},
@@ -35,31 +45,64 @@ export default function AuthContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<UserProps | null>(null);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
+    const getUser = () => {
+      const userStorage = localStorage.getItem("@web_motors");
+      if (userStorage) {
+        const userData = JSON.parse(userStorage);
+        setUser(userData as UserProps);
+      }
       setLoading(false);
-    });
+    };
 
-    return () => unsub();
+    getUser();
   }, []);
 
   const handleEmail = (email: string) => {
     setEmail(email);
   };
 
-  const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+  const handleName = (name: string) => {
+    setName(name);
   };
 
-  const sigin = async (email: string, password: string) => {
+  const login = async (email: string, password: string) => {
+    await signInWithEmailAndPassword(auth, email, password).then(
+      (firebaseUser) => {
+        const userData = {
+          uid: firebaseUser.user.uid,
+          email: firebaseUser.user.email!,
+          name: firebaseUser.user.displayName || "",
+        };
+
+        localStorage.setItem("@web_motors", JSON.stringify(userData));
+        setUser(userData);
+      }
+    );
+  };
+
+  const sigin = async (name: string, email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        console.log("Cadastrado com sucesso");
+      .then(async (firebaseUser) => {
+        if (auth.currentUser) {
+          await updateProfile(firebaseUser.user, { displayName: name });
+        }
+
+        const userData = {
+          name: name,
+          email: email,
+          uid: firebaseUser.user.uid,
+        };
+
+        localStorage.setItem("@web_motors", JSON.stringify(userData));
+        router.push("/dashboard");
       })
       .catch((err) => {
         console.log(err);
@@ -67,12 +110,25 @@ export default function AuthContextProvider({
   };
 
   const logout = async () => {
-    await signOut(auth);
+    await signOut(auth).then(() => {
+      localStorage.removeItem("@web_motors");
+      setUser(null);
+    });
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, email, handleEmail, loading, login, sigin, logout }}
+      value={{
+        user,
+        name,
+        handleName,
+        email,
+        handleEmail,
+        login,
+        sigin,
+        logout,
+        loading,
+      }}
     >
       {children}
     </AuthContext.Provider>

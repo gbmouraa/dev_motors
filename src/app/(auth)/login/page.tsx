@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.email("Insira um email válido"),
@@ -24,12 +25,16 @@ export default function Login() {
 
   const { login } = use(AuthContext);
 
+  const navigate = useRouter();
+
   const onSubmit = async ({ email, password }: FormData) => {
-    await login(email, password);
+    await login(email, password).then(() => {
+      navigate.push("/dashboard");
+    });
   };
 
   return (
-    <section className="bg-white w-fit  mx-auto py-10 -translate-y-16 rounded-lg px-8 shadow">
+    <section className="bg-white w-fit  mx-auto py-10 -translate-y-16 sm:-translate-y-[40%] rounded-lg px-8 shadow">
       <div className="sm:min-w-[384px]">
         <h1 className="text-2xl mb-5">Entre com seu e-mail</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-96">
@@ -43,7 +48,7 @@ export default function Login() {
           />
           <Input
             type="password"
-            name="email"
+            name="password"
             label="Senha"
             placeholder="Digite sua senha"
             register={register}

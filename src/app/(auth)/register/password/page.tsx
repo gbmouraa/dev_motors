@@ -1,6 +1,7 @@
 "use client";
 
 import { use } from "react";
+import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/auth-context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/input";
@@ -22,14 +23,18 @@ export default function Password() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const { email, sigin } = use(AuthContext);
+  const { name, email, sigin } = use(AuthContext);
 
-  const onSubmit = async ({ password, confirmPassword }: FormData) => {
-    await sigin(email, password);
+  const router = useRouter();
+
+  const onSubmit = async ({ password }: FormData) => {
+    await sigin(name, email, password);
   };
 
+  if (name === "" || email === "") router.push("/register");
+
   return (
-    <section className="bg-white w-fit mx-auto py-10 -translate-y-16 rounded-lg px-8 shadow">
+    <section className="bg-white w-fit mx-auto py-10 -translate-y-16 sm:-translate-y-[40%] rounded-lg px-8 shadow">
       <div>
         <h1 className="text-2xl mb-5">Crie uma senha para sua conta</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-96">
@@ -39,7 +44,7 @@ export default function Password() {
             label="Senha"
             placeholder="Digite sua senha"
             register={register}
-            // error={errors.name?.message}
+            error={errors.password?.message}
           />
           <Input
             type="password"
@@ -47,7 +52,7 @@ export default function Password() {
             label="Confirme sua senha"
             placeholder="Confirme sua senha"
             register={register}
-            // error={errors.email?.message}
+            error={errors.confirmPassword?.message}
           />
           <small className="text-gray-500 block my-7 text-xs">
             Ao me cadastrar, eu declaro ter ciência de que sete cadastro é

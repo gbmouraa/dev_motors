@@ -23,16 +23,18 @@ export default function Register() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onChange" });
 
-  const { handleEmail } = use(AuthContext);
+  const { handleEmail, handleName } = use(AuthContext);
   const router = useRouter();
 
+  // TODO: add transitions
   const onSubmit = ({ name, email }: FormData) => {
+    handleName(name);
     handleEmail(email);
     router.push("register/password");
   };
 
   return (
-    <section className="bg-white w-fit mx-auto py-10 -translate-y-16 rounded-lg px-8 shadow">
+    <section className="bg-white w-fit mx-auto py-10 -translate-y-16 sm:-translate-y-[40%] rounded-lg px-8 shadow">
       <div>
         <h1 className="text-2xl mb-5">Crie uma conta com seu e-mail</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-96">
@@ -60,6 +62,7 @@ export default function Register() {
             type="submit"
             className="cursor-pointer block mt-3 text-white bg-red-500 text-xs p-3 font-semibold rounded-xl hover:opacity-70 transition-opacity"
           >
+            {/* TODO: add pending to improve style */}
             Criar conta
           </button>
         </form>
