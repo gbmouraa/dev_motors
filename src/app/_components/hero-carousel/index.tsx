@@ -32,14 +32,14 @@ export function CarouselPlugin() {
       <CarouselContent>
         {carouselImages.map((img, index) => (
           <CarouselItem key={index} className="w-full">
-            <div className="relative">
+            <div className="relative w-full h-[200px] sm:h-[320px]">
               <Image
                 src={img}
                 alt="Carousel image"
-                className="object-cover h-[200px] sm:h-auto w-full"
-                sizes="100vw"
+                className="object-cover h-[200px] sm:h-[320px] w-full"
                 priority
                 quality={100}
+                fill
               />
             </div>
           </CarouselItem>
