@@ -22,7 +22,7 @@ export function Input({
   password,
 }: InputProps) {
   return (
-    <div className="flex flex-col mb-4">
+    <div className="flex flex-col mb-4 w-full">
       <label htmlFor={name} className="font-medium text-gray-600 text-sm">
         {label}
       </label>

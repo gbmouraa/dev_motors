@@ -8,7 +8,7 @@ export function LogoutButton() {
 
   return (
     <button
-      className="text-sm font-semibold text-white cursor-pointer"
+      className="text-sm font-semibold text-gray-500 cursor-pointer"
       onClick={logout}
     >
       Sair da conta
