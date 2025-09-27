@@ -10,13 +10,15 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="bg-sky-50 min-h-[calc(100vh-56px)]">
+    <main className="bg-sky-50 min-h-[calc(100vh-56px)] pb-10">
       <Header />
       <Container>
-        <Private>
-          <Panel />
-          {children}
-        </Private>
+        <div className="mt-3">
+          <Private>
+            <Panel />
+            {children}
+          </Private>
+        </div>
       </Container>
     </main>
   );
