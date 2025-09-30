@@ -9,10 +9,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
 
-const schema = z.object({
-  password: z.string(),
-  confirmPassword: z.string(),
-});
+const schema = z
+  .object({
+    password: z.string().min(6, "A senha deve conter no minimo 6 caracteres"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "As senhas não coincidem.",
+    path: ["confirmPassword"],
+  });
 
 type FormData = z.infer<typeof schema>;
 
@@ -45,6 +50,7 @@ export default function Password() {
             placeholder="Digite sua senha"
             register={register}
             error={errors.password?.message}
+            password
           />
           <Input
             type="password"
@@ -53,6 +59,7 @@ export default function Password() {
             placeholder="Confirme sua senha"
             register={register}
             error={errors.confirmPassword?.message}
+            password
           />
           <small className="text-gray-500 block my-7 text-xs">
             Ao me cadastrar, eu declaro ter ciência de que sete cadastro é

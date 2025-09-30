@@ -53,6 +53,7 @@ export default function Login() {
             placeholder="Digite sua senha"
             register={register}
             error={errors.password?.message}
+            password
           />
           <button
             type="submit"
