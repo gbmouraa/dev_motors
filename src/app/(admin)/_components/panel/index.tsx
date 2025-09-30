@@ -8,22 +8,26 @@ export function Panel() {
   const pathname = usePathname();
 
   return (
-    <div className="bg-white">
-      <div className="flex items-center justify-between w-full p-4 rounded-t-lg ">
+    <div className="bg-white rounded-lg mb-3">
+      <div className="flex items-center justify-between w-full px-4 py-3">
         <div className="flex gap-3 items-center">
           <Link
             href="/dashboard"
-            className={`text-sm font-semibold ${
-              pathname === "/dashboard" ? "text-blue-600" : "text-gray-500"
+            className={`text-sm font-semibold py-1 border-b-2 border-transparent ${
+              pathname === "/dashboard"
+                ? "text-gray-800 border-b-red-500"
+                : "text-gray-500"
             }`}
           >
-            Dashboard
+            Meus carros
           </Link>
           <span className="text-gray-500">|</span>
           <Link
             href="/add-new-car"
-            className={`text-sm font-semibold ${
-              pathname === "/add-new-car" ? "text-blue-500" : "text-gray-500"
+            className={`text-sm font-semibold py-2 border-b-2 border-transparent ${
+              pathname === "/add-new-car"
+                ? "text-gray-800 border-b-red-500"
+                : "text-gray-500"
             }`}
           >
             Cadastrar carro
@@ -31,7 +35,6 @@ export function Panel() {
         </div>
         <LogoutButton />
       </div>
-      <div className="w-[98%] mx-auto  h-px bg-gray-200"></div>
     </div>
   );
 }

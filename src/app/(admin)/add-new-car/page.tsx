@@ -133,7 +133,7 @@ export default function AddNewCar() {
   };
 
   return (
-    <section className="bg-white p-4 rounded-b-lg">
+    <section className="bg-white p-4 py-5 rounded-lg">
       {/* Car images */}
       <div className="mb-6">
         <div className="flex flex-col justify-center">

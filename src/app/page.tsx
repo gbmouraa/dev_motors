@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="bg-sky-50 min-h-[calc(100vh-56px)]">
+      <main className="bg-[#ECEDF2] min-h-[calc(100vh-56px)]">
         <CarouselPlugin />
         <Container>
           <section className="flex w-full flex-col items-center">
