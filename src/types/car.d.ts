@@ -14,7 +14,6 @@ export interface CarProps {
   phone: string;
   city: string;
   price: string;
-  city: string;
   category: string;
   description: string;
   owner: string;
