@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { Loader } from "@/components/loader";
 import { ChangeEvent, useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +35,8 @@ export function CarForm({ carToEdit }: CarFormProps) {
   const [imagesToDelete, setImagesToDelete] = useState<
     { name: string; uid: string }[]
   >([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     return () => {
@@ -98,7 +103,9 @@ export function CarForm({ carToEdit }: CarFormProps) {
     }
   };
 
-  const onSubmit = async (data: FormData) => {
+  const [isPending, startTransition] = useTransition();
+
+  const onSubmit = (data: FormData) => {
     if (!user) return;
 
     if (carImages.length === 0) {
@@ -106,40 +113,44 @@ export function CarForm({ carToEdit }: CarFormProps) {
       return;
     }
 
-    try {
-      const images = await uploadImages(carImages);
+    startTransition(async () => {
+      try {
+        const images = await uploadImages(carImages);
 
-      const carData = {
-        data: data,
-        images: images,
-        user: user,
-      };
-
-      if (carToEdit) {
-        const newCarData = {
-          ...carData,
+        const carData = {
+          data: data,
+          images: images,
           user: user,
-          carId: carToEdit.id!,
-          imagesToDelete: imagesToDelete,
         };
 
-        try {
-          await updateCar(newCarData);
-          reset();
-          setCarImages([]);
-        } catch (err) {
-          console.error(err);
+        if (carToEdit) {
+          const newCarData = {
+            ...carData,
+            user: user,
+            carId: carToEdit.id!,
+            imagesToDelete: imagesToDelete,
+          };
+
+          try {
+            await updateCar(newCarData);
+            reset();
+            setCarImages([]);
+            router.push("/dashboard");
+          } catch (err) {
+            console.error(err);
+          }
+
+          return;
         }
 
-        return;
+        await createCar(carData);
+        reset();
+        setCarImages([]);
+        router.push("/dashboard");
+      } catch (err) {
+        console.error("Erro na submissão do formulário:", err);
       }
-
-      await createCar(carData);
-      reset();
-      setCarImages([]);
-    } catch (err) {
-      console.error("Erro na submissão do formulário:", err);
-    }
+    });
   };
 
   const handleDeleteImage = (image: CarImageProps) => {
@@ -153,7 +164,7 @@ export function CarForm({ carToEdit }: CarFormProps) {
   };
 
   return (
-    <section className="bg-white p-4 py-5 rounded-lg">
+    <section className="bg-white p-4 py-5 rounded-lg relative">
       {/* Car images */}
       <div className="mb-6">
         <div className="flex flex-col justify-center">
@@ -284,11 +295,12 @@ export function CarForm({ carToEdit }: CarFormProps) {
         />
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-3 cursor-pointer rounded-md"
+          className="w-full bg-red-500 text-white py-3 cursor-pointer rounded-md font-semibold hover:bg-red-500/70 transition-colors"
         >
-          Cadastrar
+          {carToEdit ? "Atualizar" : "Cadastrar"}
         </button>
       </form>
+      {isPending && <Loader />}
     </section>
   );
 }
