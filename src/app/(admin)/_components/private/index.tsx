@@ -1,11 +1,11 @@
 "use client";
 
-import { use } from "react";
+import { useContext } from "react";
 import { AuthContext } from "@/context/auth-context";
 import { redirect } from "next/navigation";
 
 export function Private({ children }: { children: React.ReactNode }) {
-  const { user, loading } = use(AuthContext);
+  const { user, loading } = useContext(AuthContext);
 
   if (loading) {
     return <div>Carregando...</div>;

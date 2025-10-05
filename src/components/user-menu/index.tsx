@@ -1,12 +1,12 @@
 "use client";
 
-import { use } from "react";
+import { useContext } from "react";
 import { AuthContext } from "@/context/auth-context";
 import Link from "next/link";
 import { FaRegUserCircle } from "react-icons/fa";
 
 export function UserMenu() {
-  const { user } = use(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="border-l border-gray-200 h-14 flex items-center pl-6">

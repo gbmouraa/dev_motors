@@ -7,10 +7,10 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { auth } from "@/lib/firebase/firebase-connection";
 import { useRouter } from "next/navigation";
 
-interface UserProps {
+export interface UserProps {
   uid: string;
   email: string;
   name: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/auth-context";
 import { Input } from "@/components/input";
@@ -23,7 +23,7 @@ export default function Register() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onChange" });
 
-  const { handleEmail, handleName } = use(AuthContext);
+  const { handleEmail, handleName } = useContext(AuthContext);
   const router = useRouter();
 
   // TODO: add transitions

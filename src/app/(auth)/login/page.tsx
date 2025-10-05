@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { useContext } from "react";
 import { AuthContext } from "@/context/auth-context";
 import { Input } from "@/components/input";
 import { useForm } from "react-hook-form";
@@ -23,7 +23,7 @@ export default function Login() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const { login } = use(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const navigate = useRouter();
 
