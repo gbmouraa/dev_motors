@@ -4,9 +4,13 @@ export interface CarImageProps {
   previewUrl?: string;
   url?: string;
   file?: File;
+  isNew?: boolean;
+  toDelete?: boolean;
 }
 
 export interface CarProps {
+  // id do documento no firebase
+  id?: string;
   name: string;
   model: string;
   year: string;
@@ -19,5 +23,7 @@ export interface CarProps {
   owner: string;
   uid: string;
   images: CarImageProps[];
-  created: any;
+  created?: any;
 }
+
+// EditCarProps -> Omit
