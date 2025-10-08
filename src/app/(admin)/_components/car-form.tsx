@@ -115,6 +115,7 @@ export function CarForm({ carToEdit }: CarFormProps) {
 
     startTransition(async () => {
       try {
+        // REFACTOR: melhorar a forma com que as imagens são recebidas
         const images = await uploadImages(carImages);
 
         const carData = {
@@ -164,7 +165,7 @@ export function CarForm({ carToEdit }: CarFormProps) {
   };
 
   return (
-    <section className="bg-white p-4 py-5 rounded-lg relative">
+    <section className="bg-white p-4 rounded-[10px] relative">
       {/* Car images */}
       <div className="mb-6">
         <div className="flex flex-col justify-center">
@@ -177,7 +178,7 @@ export function CarForm({ carToEdit }: CarFormProps) {
           />
           <label
             htmlFor="inputImage"
-            className="flex items-center justify-items-start gap-2 cursor-pointer hover:bg-gray-300/80 transition-all hover:text-gray-800 bg-gray-100 w-fit px-2 py-1 text-[13px] rounded text-gray-600 border border-gray-300"
+            className="flex items-center justify-items-start gap-2 cursor-pointer hover:bg-black/60 transition-all  bg-black/85 w-fit px-2 py-2 text-[13px] rounded-md text-white"
           >
             <Plus size={16} />
             <span className="">Adicionar imagem</span>
@@ -197,10 +198,10 @@ export function CarForm({ carToEdit }: CarFormProps) {
                 quality={100}
               />
               <button
-                className="absolute z-10 top-1/2 left-1/2 -translate-1/2 cursor-pointer"
+                className="w-7 h-7 rounded-full flex items-center justify-center bg-white text-gray-600 cursor-pointer hover:bg-neutral-800 hover:text-white transition-all absolute z-10 top-2 left-2"
                 onClick={() => handleDeleteImage(img)}
               >
-                <Trash color="#fff" />
+                <Trash size={12} />
               </button>
             </div>
           ))}

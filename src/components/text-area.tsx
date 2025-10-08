@@ -20,7 +20,7 @@ export function TextArea({ name, control, placeholder, label }: TextAreaProps) {
             {label}
           </label>
           <textarea
-            className={`border-2 border-gray-300 rounded-md min-h-20 px-2 py-3 focus:border-blue-500 outline-none text-[15px] font-medium ${
+            className={`border-2 border-gray-300 rounded-md min-h-20 px-2 py-3 focus:border-black/85 outline-none text-[15px] font-medium ${
               fieldState.error && "border-red-500 focus:border-red-500"
             }`}
             placeholder={placeholder}

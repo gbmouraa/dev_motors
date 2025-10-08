@@ -37,7 +37,7 @@ export function CategorySelect({
             >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent className="bg-gray-100 border-gray-300">
+            <SelectContent className="bg-white border-gray-300">
               <SelectGroup>
                 {options.map((opt) => (
                   <SelectItem

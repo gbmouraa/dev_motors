@@ -38,7 +38,7 @@ export function Input({
       </label>
       <div className="relative w-full">
         <input
-          className={`w-full border-2 border-gray-300 rounded-md px-2 py-3 focus:border-blue-500 outline-none text-[15px] font-medium ${
+          className={`w-full border-2 border-gray-300 rounded-md px-2 py-3 focus:border-black/85 outline-none text-[15px] font-medium ${
             error && "border-red-500 focus:border-red-500"
           }`}
           type={password ? passwordType : type}
