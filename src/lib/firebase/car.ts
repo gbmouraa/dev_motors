@@ -3,6 +3,7 @@ import {
   collection,
   doc,
   getDocs,
+  limit,
   orderBy,
   query,
   updateDoc,
@@ -12,7 +13,7 @@ import { db } from "./firebase-connection";
 import { FormData } from "@/utils/car-schema";
 import { UserProps } from "@/context/auth-context";
 import { deleteCarImage } from "./storage";
-import { CarProps } from "@/types/car";
+import { CarItemProps, CarProps } from "@/types/car";
 
 export type ImagesProps = {
   name: string;
@@ -74,7 +75,7 @@ export const updateCar = async (params: CarActionsParams) => {
   }
 };
 
-export const getCars = async (user: UserProps) => {
+export const getUserCars = async (user: UserProps) => {
   const docRef = collection(db, "cars");
   const q = query(
     docRef,
@@ -96,8 +97,32 @@ export const getCars = async (user: UserProps) => {
       images: car.data().images,
     }));
 
-    return carsList as CarProps[];
+    return carsList as CarItemProps[];
   } catch (err) {
     console.error("Erro ao buscar dados no banco de dados:", err);
+  }
+};
+
+export const getCars = async () => {
+  const docsRef = collection(db, "cars");
+  const q = query(docsRef, limit(10));
+
+  try {
+    const querySnapshot = await getDocs(q);
+
+    const carList = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      name: doc.data().name,
+      model: doc.data().model,
+      year: doc.data().year,
+      km: doc.data().km,
+      city: doc.data().city,
+      price: doc.data().price,
+      images: doc.data().images,
+    }));
+
+    return carList as CarItemProps[];
+  } catch (err) {
+    console.error("Erro ao carregar carros:", err);
   }
 };

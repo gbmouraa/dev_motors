@@ -9,7 +9,6 @@ export interface CarImageProps {
 }
 
 export interface CarProps {
-  // id do documento no firebase
   id?: string;
   name: string;
   model: string;
@@ -26,4 +25,15 @@ export interface CarProps {
   created?: any;
 }
 
-// EditCarProps -> Omit
+export interface CarItemProps {
+  id: string;
+  name: string;
+  model: string;
+  year: string;
+  km: string;
+  city: string;
+  price: string;
+  images: CarImageProps[];
+  isOnDashboard?: boolean;
+  onClick?: () => void;
+}
