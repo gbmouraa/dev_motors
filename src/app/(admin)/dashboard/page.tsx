@@ -1,37 +1,46 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+"use client";
+
+import { useContext, useState, useEffect } from "react";
+import { getUserCars } from "@/lib/firebase/car";
 import { CarItem } from "@/components/car-item";
+import { AuthContext } from "@/context/auth-context";
+import { CarItemProps } from "@/types/car";
+import { deleteCar } from "@/lib/firebase/storage";
 
-async function getCars() {
-  const docRef = collection(db, "cars");
-  const q = query(docRef, orderBy("created", "asc"));
+export default function Dashboard() {
+  const [cars, setCars] = useState<CarItemProps[] | null>([]);
 
-  const querySnapshot = await getDocs(q);
+  const { user } = useContext(AuthContext);
 
-  const carsList = querySnapshot.docs.map((car) => ({
-    name: car.data().name,
-    model: car.data().model,
-    year: car.data().year,
-    km: car.data().km,
-    city: car.data().city,
-    price: car.data().price,
-    images: car.data().images,
-    id: car.id,
-  }));
+  useEffect(() => {
+    const fetchCars = async () => {
+      if (!user) return;
 
-  return carsList;
-}
+      const res = await getUserCars(user);
+      if (res) setCars(res);
+    };
 
-export default async function Dashboard() {
-  const cars = await getCars();
+    fetchCars();
+  }, [user]);
 
-  if (cars.length === 0)
-    return <section>Você não possui nenhum carro cadastrado</section>;
+  const handleDeleteCar = async ({ id, images }: CarItemProps) => {
+    try {
+      await deleteCar(id, images);
+
+      const carListUpdated = cars?.filter((item) => item.id !== id);
+      setCars(carListUpdated!);
+    } catch (err) {
+      console.error("Erro ao excluir carro:", err);
+    }
+  };
+
+  if (!cars) return <section>Você não possui nenhum carro cadastrado</section>;
 
   return (
     <section className="flex flex-wrap flex-col gap-3 md:flex-row">
       {cars.map((item) => (
         <CarItem
+          id={item.id}
           key={item.id}
           name={item.name}
           model={item.model}
@@ -40,6 +49,8 @@ export default async function Dashboard() {
           city={item.city}
           price={item.price}
           images={item.images}
+          isOnDashboard
+          onClick={() => handleDeleteCar(item)}
         />
       ))}
     </section>

@@ -1,20 +1,11 @@
 import Image from "next/image";
 import { formatCurrency } from "@/utils/format-currency";
-import { CarImageProps } from "@/types/car";
 import { MapPin, Pencil, Trash } from "lucide-react";
-
-interface CarItemProps {
-  name: string;
-  model: string;
-  year: string;
-  km: string;
-  city: string;
-  price: string;
-  images: CarImageProps[];
-  isOnDashboard?: boolean;
-}
+import Link from "next/link";
+import { CarItemProps } from "@/types/car";
 
 export function CarItem({
+  id,
   name,
   model,
   year,
@@ -22,19 +13,29 @@ export function CarItem({
   city,
   price,
   images,
+  isOnDashboard,
+  onClick,
 }: CarItemProps) {
   return (
     <div className="md:flex-col md:max-w-[214px] flex flex-row bg-white w-full rounded-lg overflow-hidden max-w-[820px] md:h-[390px]">
       {/* Image */}
       <div className="relative w-[40%] md:w-full h-[140px] md:h-[172px]">
-        <div className="flex absolute top-2 left-2 z-10 gap-x-1">
-          <button className="w-7 h-7 rounded-full flex items-center justify-center bg-white text-gray-600 cursor-pointer hover:bg-neutral-800 hover:text-white transition-all">
-            <Pencil size={12} />
-          </button>
-          <button className="w-7 h-7 rounded-full flex items-center justify-center bg-white text-gray-600 cursor-pointer hover:bg-neutral-800 hover:text-white transition-all">
-            <Trash size={12} />
-          </button>
-        </div>
+        {/* Actions - only on dashboard page */}
+        {isOnDashboard && (
+          <div className="flex absolute top-2 left-2 z-10 gap-x-1">
+            <Link href={`/edit-car/${id}`}>
+              <button className="w-7 h-7 rounded-full flex items-center justify-center bg-white text-gray-600 cursor-pointer hover:bg-neutral-800 hover:text-white transition-all">
+                <Pencil size={12} />
+              </button>
+            </Link>
+            <button
+              className="w-7 h-7 rounded-full flex items-center justify-center bg-white text-gray-600 cursor-pointer hover:bg-neutral-800 hover:text-white transition-all"
+              onClick={onClick}
+            >
+              <Trash size={12} />
+            </button>
+          </div>
+        )}
         <Image
           src={images[0].url!}
           alt="Imagem do carro"
