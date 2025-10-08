@@ -14,10 +14,8 @@ export default function AdminLayout({
       <Header />
       <Container>
         <div className="mt-3">
-          <Private>
-            <Panel />
-            {children}
-          </Private>
+          <Panel />
+          <Private>{children}</Private>
         </div>
       </Container>
     </main>
