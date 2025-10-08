@@ -17,7 +17,7 @@ export function CarItem({
   onClick,
 }: CarItemProps) {
   return (
-    <div className="md:flex-col md:max-w-[214px] flex flex-row bg-white w-full rounded-lg overflow-hidden max-w-[820px] md:h-[390px]">
+    <div className="md:flex-col md:max-w-[214px] flex flex-row bg-white w-full rounded-lg overflow-hidden md:h-[390px]">
       {/* Image */}
       <div className="relative w-[40%] md:w-full h-[140px] md:h-[172px]">
         {/* Actions - only on dashboard page */}
