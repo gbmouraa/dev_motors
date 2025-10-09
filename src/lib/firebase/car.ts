@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -119,10 +120,39 @@ export const getCars = async () => {
       city: doc.data().city,
       price: doc.data().price,
       images: doc.data().images,
+      category: doc.data().category,
     }));
 
     return carList as CarItemProps[];
   } catch (err) {
     console.error("Erro ao carregar carros:", err);
   }
+};
+
+export const getCar = async (carId: string) => {
+  const docRef = doc(db, "cars", carId);
+
+  try {
+    const snapshot = await getDoc(docRef);
+
+    if (snapshot.exists()) {
+      const carData = {
+        id: snapshot.id,
+        name: snapshot.data().name,
+        model: snapshot.data().model,
+        year: snapshot.data().year,
+        km: snapshot.data().km,
+        city: snapshot.data().city,
+        price: snapshot.data().price,
+        images: snapshot.data().images,
+        description: snapshot.data().description,
+        phone: snapshot.data().phone,
+        owner: snapshot.data().owner,
+        category: snapshot.data().category,
+        uid: snapshot.data().uid,
+      };
+
+      return carData as CarProps;
+    }
+  } catch (err) {}
 };
