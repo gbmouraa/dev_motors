@@ -8,7 +8,7 @@ import { CarItemProps } from "@/types/car";
 import { deleteCar } from "@/lib/firebase/storage";
 
 export default function Dashboard() {
-  const [cars, setCars] = useState<CarItemProps[] | null>([]);
+  const [cars, setCars] = useState<CarItemProps[]>([]);
 
   const { user } = useContext(AuthContext);
 
@@ -16,7 +16,7 @@ export default function Dashboard() {
     const fetchCars = async () => {
       if (!user) return;
 
-      const res = await getUserCars(user);
+      const res = await getUserCars(user.uid);
       if (res) setCars(res);
     };
 
@@ -34,7 +34,8 @@ export default function Dashboard() {
     }
   };
 
-  if (!cars) return <section>Você não possui nenhum carro cadastrado</section>;
+  if (cars.length === 0)
+    return <section>Você não possui nenhum carro cadastrado</section>;
 
   return (
     <section className="flex flex-wrap flex-col gap-3 md:flex-row">

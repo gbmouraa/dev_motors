@@ -15,7 +15,7 @@ export function UserMenu() {
         className="flex items-start gap-1 text-[13px] font-bold"
       >
         <FaRegUserCircle size={20} />
-        {user ? user.name : "Entrar"}
+        {user?.name ?? "Entrar"}
       </Link>
     </div>
   );

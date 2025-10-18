@@ -2,8 +2,8 @@ import { Header } from "@/components/header";
 import { Container } from "@/components/container";
 import { CarouselPlugin } from "./_components/hero-carousel";
 import { InputSearchCar } from "./_components/input-search-car";
-import { Categories } from "./_components/categories";
-import { RecomendedCars } from "./_components/recomended-cars";
+import { Categories } from "@/components/categories";
+import { RecomendedCars } from "@/components/recomended-cars";
 
 export default function Home() {
   return (

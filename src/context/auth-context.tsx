@@ -7,8 +7,9 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebase-connection";
+import { auth, db } from "@/lib/firebase/firebase-connection";
 import { useRouter } from "next/navigation";
+import { doc, setDoc } from "firebase/firestore";
 
 export interface UserProps {
   uid: string;
@@ -93,6 +94,11 @@ export default function AuthContextProvider({
       .then(async (firebaseUser) => {
         if (auth.currentUser) {
           await updateProfile(firebaseUser.user, { displayName: name });
+          await setDoc(doc(db, "users", auth.currentUser.uid), {
+            name: name,
+            uid: auth.currentUser.uid,
+            favoriteCars: [],
+          });
         }
 
         const userData = {
@@ -102,6 +108,7 @@ export default function AuthContextProvider({
         };
 
         localStorage.setItem("@web_motors", JSON.stringify(userData));
+        setUser(userData);
         router.push("/dashboard");
       })
       .catch((err) => {

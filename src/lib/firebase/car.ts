@@ -1,5 +1,6 @@
 import {
   addDoc,
+  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -9,6 +10,7 @@ import {
   query,
   updateDoc,
   where,
+  arrayRemove,
 } from "firebase/firestore";
 import { db } from "./firebase-connection";
 import { FormData } from "@/utils/car-schema";
@@ -76,11 +78,11 @@ export const updateCar = async (params: CarActionsParams) => {
   }
 };
 
-export const getUserCars = async (user: UserProps) => {
+export const getUserCars = async (userUid: string) => {
   const docRef = collection(db, "cars");
   const q = query(
     docRef,
-    where("uid", "==", user.uid),
+    where("uid", "==", userUid),
     orderBy("created", "asc")
   );
 
@@ -154,5 +156,60 @@ export const getCar = async (carId: string) => {
 
       return carData as CarProps;
     }
+  } catch (err) {}
+};
+
+export const addCarToFavorites = async (carId: string, userUid: string) => {
+  const docRef = doc(db, "users", userUid);
+
+  try {
+    await updateDoc(docRef, {
+      favoriteCars: arrayUnion(carId),
+    });
+  } catch (err) {}
+};
+
+export const removeCarFromFavorites = async (carId: string, userId: string) => {
+  const docRef = doc(db, "users", userId);
+
+  try {
+    await updateDoc(docRef, {
+      favoriteCars: arrayRemove(carId),
+    });
+  } catch (err) {}
+};
+
+export const getFavoriteCarsID = async (userUid: string) => {
+  const docRef = doc(db, "users", userUid);
+
+  try {
+    const snapshot = await getDoc(docRef);
+    const favoriteCars = snapshot?.data()?.favoriteCars ?? [];
+    return favoriteCars;
+  } catch (err) {
+    return [];
+  }
+};
+
+export const getFavoritesCars = async (userId: string) => {
+  try {
+    const carsIDsToFetch = await getFavoriteCarsID(userId);
+
+    const carsRef = collection(db, "cars");
+    const q = query(carsRef, where("__name__", "in", carsIDsToFetch));
+
+    const querySnapshot = await getDocs(q);
+    const cars = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      name: doc.data().name,
+      model: doc.data().model,
+      year: doc.data().year,
+      km: doc.data().year,
+      city: doc.data().city,
+      price: doc.data().price,
+      images: doc.data().images,
+    }));
+
+    return cars as CarItemProps[];
   } catch (err) {}
 };

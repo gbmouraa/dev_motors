@@ -10,7 +10,7 @@ export function Panel() {
   return (
     <div className="mb-3 px-1">
       <div className="flex items-center justify-between w-full  py-1">
-        {pathname !== "/dashboard" && pathname !== "/add-new-car" ? (
+        {pathname.startsWith("/edit-car") ? (
           <div className="flex gap-5 items-center">
             <span className="border-b-2 border-red-500 text-gray-800 text-sm font-medium">
               Editar carro
@@ -43,6 +43,16 @@ export function Panel() {
               }`}
             >
               Cadastrar carro
+            </Link>
+            <Link
+              href="/favorites"
+              className={`text-sm font-semibold py-1 border-b-2 border-transparent ${
+                pathname === "/favorites"
+                  ? "text-gray-800 border-b-red-500"
+                  : "text-gray-500"
+              }`}
+            >
+              Favoritos
             </Link>
           </div>
         )}

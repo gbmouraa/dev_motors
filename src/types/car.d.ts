@@ -36,4 +36,5 @@ export interface CarItemProps {
   images: CarImageProps[];
   isOnDashboard?: boolean;
   onClick?: () => void;
+  isOnFavoritePage?: boolean;
 }
