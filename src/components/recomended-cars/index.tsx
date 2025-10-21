@@ -1,20 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getCars } from "@/lib/firebase/car";
 import { CarItemProps } from "@/types/car";
 import { CarItem } from "@/components/car-item";
 import { RecomendedCarsCarousel } from "./_components/carousel";
 import { RecomendedCarsSkeleton } from "./_components/skeleton";
+import { AuthContext } from "@/context/auth-context";
 
 export function RecomendedCars() {
   const [cars, setCars] = useState<CarItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const res = await getCars();
+        const res = await getCars(user?.uid);
         if (res) setCars(res);
       } catch (err) {
       } finally {
@@ -23,7 +26,7 @@ export function RecomendedCars() {
     };
 
     fetchCars();
-  }, []);
+  }, [user]);
 
   return (
     <section className="w-full mt-14">
