@@ -7,18 +7,19 @@ import picapeImg from "./assets/picape.webp";
 import sedanImg from "./assets/sedan.webp";
 import suvImg from "./assets/suv.webp";
 
-interface CategoriesProps {
+export interface CategoriesProps {
   category: string;
   image: StaticImageData;
+  slug: string;
 }
 
 export function Categories() {
   const categories: CategoriesProps[] = [
-    { category: "Carros elétricos", image: eletricoImg },
-    { category: "Hatches", image: hatchImg },
-    { category: "Picapes", image: picapeImg },
-    { category: "Sedans", image: sedanImg },
-    { category: "SUVs", image: suvImg },
+    { category: "Carros elétricos", image: eletricoImg, slug: "eletrico" },
+    { category: "Hatches", image: hatchImg, slug: "hatch" },
+    { category: "Picapes", image: picapeImg, slug: "picape" },
+    { category: "Sedans", image: sedanImg, slug: "sedan" },
+    { category: "SUVs", image: suvImg, slug: "suv" },
   ];
 
   return (

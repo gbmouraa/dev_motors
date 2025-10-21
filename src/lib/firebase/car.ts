@@ -106,9 +106,11 @@ export const getUserCars = async (userUid: string) => {
   }
 };
 
-export const getCars = async () => {
+export const getCars = async (userUid?: string) => {
   const docsRef = collection(db, "cars");
-  const q = query(docsRef, limit(10));
+  const q = userUid
+    ? query(docsRef, where("uid", "!=", userUid))
+    : query(docsRef, limit(10));
 
   try {
     const querySnapshot = await getDocs(q);
@@ -191,9 +193,9 @@ export const getFavoriteCarsID = async (userUid: string) => {
   }
 };
 
-export const getFavoritesCars = async (userId: string) => {
+export const getFavoritesCars = async (userUid: string) => {
   try {
-    const carsIDsToFetch = await getFavoriteCarsID(userId);
+    const carsIDsToFetch = await getFavoriteCarsID(userUid);
 
     const carsRef = collection(db, "cars");
     const q = query(carsRef, where("__name__", "in", carsIDsToFetch));
@@ -204,7 +206,29 @@ export const getFavoritesCars = async (userId: string) => {
       name: doc.data().name,
       model: doc.data().model,
       year: doc.data().year,
-      km: doc.data().year,
+      km: doc.data().km,
+      city: doc.data().city,
+      price: doc.data().price,
+      images: doc.data().images,
+    }));
+
+    return cars as CarItemProps[];
+  } catch (err) {}
+};
+
+export const getCarsByCategory = async (category: string) => {
+  try {
+    const carsRef = collection(db, "cars");
+    const q = query(carsRef, where("category", "==", category));
+
+    const querySnapshot = await getDocs(q);
+
+    const cars = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      name: doc.data().name,
+      model: doc.data().model,
+      year: doc.data().year,
+      km: doc.data().km,
       city: doc.data().city,
       price: doc.data().price,
       images: doc.data().images,

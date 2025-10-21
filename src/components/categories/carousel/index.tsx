@@ -1,18 +1,14 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { CategoriesProps } from "..";
 
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { StaticImageData } from "next/image";
 
-interface CategoriesProps {
-  category: string;
-  image: StaticImageData;
-}
 export function CarouselSize({
   categories,
 }: {
@@ -28,7 +24,7 @@ export function CarouselSize({
       <CarouselContent>
         {categories.map((item) => (
           <CarouselItem key={item.category} className="basis-40">
-            <Link href={`/cars/${item.category}`} key={item.category}>
+            <Link href={`/category/${item.slug}`} key={item.slug}>
               <div className="relative h-[160px] after:text-white">
                 <Image
                   src={item.image}
