@@ -69,7 +69,7 @@ export default function Password() {
             type="submit"
             className="cursor-pointer block mt-3 text-white bg-red-500 text-xs p-3 font-semibold rounded-xl hover:opacity-70 transition-opacity"
           >
-            Avançar
+            Criar conta
           </button>
         </form>
         <p className="text-center mt-8 text-xs font-medium text-gray-600">

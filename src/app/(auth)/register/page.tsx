@@ -63,7 +63,7 @@ export default function Register() {
             className="cursor-pointer block mt-3 text-white bg-red-500 text-xs p-3 font-semibold rounded-xl hover:opacity-70 transition-opacity"
           >
             {/* TODO: add pending to improve style */}
-            Criar conta
+            Avançar
           </button>
         </form>
         <p className="text-center mt-8 text-xs font-medium text-gray-600">

@@ -38,7 +38,7 @@ export default function Dashboard() {
     return <section>Você não possui nenhum carro cadastrado</section>;
 
   return (
-    <section className="flex flex-wrap flex-col gap-3 md:flex-row">
+    <section className="flex md:flex-wrap flex-col gap-3 md:flex-row">
       {cars.map((item) => (
         <CarItem
           id={item.id}
