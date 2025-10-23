@@ -32,7 +32,11 @@ export function CarItem({
               </Link>
               <button
                 className="w-7 h-7 rounded-full flex items-center justify-center bg-white text-gray-600 cursor-pointer hover:bg-neutral-800 hover:text-white transition-all"
-                onClick={onClick}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  onClick?.();
+                }}
               >
                 <Trash size={12} />
               </button>
