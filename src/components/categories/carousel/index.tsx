@@ -24,7 +24,7 @@ export function CarouselSize({
       <CarouselContent>
         {categories.map((item) => (
           <CarouselItem key={item.category} className="basis-40">
-            <Link href={`/category/${item.slug}`} key={item.slug}>
+            <Link href={`car/category/${item.slug}`} key={item.slug}>
               <div className="relative h-[160px] after:text-white">
                 <Image
                   src={item.image}
