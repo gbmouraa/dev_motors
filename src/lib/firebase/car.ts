@@ -237,3 +237,32 @@ export const getCarsByCategory = async (category: string) => {
     return cars as CarItemProps[];
   } catch (err) {}
 };
+
+export const getCarBySearch = async (carModel: string) => {
+  try {
+    const searchTerm = carModel.toLowerCase();
+
+    const q = query(collection(db, "cars"));
+    const querySnapshot = await getDocs(q);
+
+    const cars = querySnapshot.docs
+      .map((doc) => ({
+        id: doc.id,
+        name: doc.data().name,
+        model: doc.data().model,
+        year: doc.data().year,
+        km: doc.data().km,
+        city: doc.data().city,
+        price: doc.data().price,
+        images: doc.data().images,
+      }))
+      .filter((car) => {
+        const name = car.name.toLowerCase();
+        const words = name.split("/[s-_.]+/");
+
+        return words.some((word: string) => word.includes(searchTerm));
+      });
+
+    return cars as CarItemProps[];
+  } catch (err) {}
+};
