@@ -144,6 +144,7 @@ export const getCar = async (carId: string) => {
         id: snapshot.id,
         name: snapshot.data().name,
         model: snapshot.data().model,
+        color: snapshot.data().color,
         year: snapshot.data().year,
         km: snapshot.data().km,
         city: snapshot.data().city,

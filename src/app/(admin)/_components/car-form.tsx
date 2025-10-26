@@ -62,6 +62,7 @@ export function CarForm({ carToEdit }: CarFormProps) {
       ? {
           name: carToEdit.name,
           model: carToEdit.model,
+          color: carToEdit.color,
           year: carToEdit.year,
           km: carToEdit.km,
           phone: carToEdit.phone,
@@ -109,6 +110,7 @@ export function CarForm({ carToEdit }: CarFormProps) {
     if (!user) return;
 
     if (carImages.length === 0) {
+      // TODO: melhorar mensagem para o usuário
       alert("Insira pelo menos uma imagem do carro");
       return;
     }
@@ -217,14 +219,24 @@ export function CarForm({ carToEdit }: CarFormProps) {
           register={register}
           error={errors.name?.message}
         />
-        <Input
-          label="Modelo"
-          placeholder="Ex: 1.4 LTZ Aut"
-          type="text"
-          name="model"
-          register={register}
-          error={errors.model?.message}
-        />
+        <div className="flex gap-x-3 w-full flex-col sm:flex-row">
+          <Input
+            label="Modelo"
+            placeholder="Ex: 1.4 LTZ Aut"
+            type="text"
+            name="model"
+            register={register}
+            error={errors.model?.message}
+          />
+          <Input
+            label="Cor"
+            placeholder="Ex: Preto"
+            type="text"
+            name="color"
+            register={register}
+            error={errors.color?.message}
+          />
+        </div>
         <div className="flex gap-x-3 w-full flex-col sm:flex-row">
           <Input
             label="Ano"
@@ -246,7 +258,7 @@ export function CarForm({ carToEdit }: CarFormProps) {
         <div className="flex gap-x-3 w-full flex-col sm:flex-row">
           <Input
             label="Telefone com DDD"
-            placeholder="Ex: 99 99999-9999"
+            placeholder="Ex: 99999999999"
             type="text"
             name="phone"
             register={register}
@@ -278,13 +290,7 @@ export function CarForm({ carToEdit }: CarFormProps) {
               name="category"
               control={control}
               placeholder="Categoria"
-              options={[
-                { value: "eletrico", label: "Elétrico" },
-                { value: "hatch", label: "Hacth" },
-                { value: "picape", label: "Picape" },
-                { value: "sedan", label: "Sedan" },
-                { value: "suv", label: "SUV" },
-              ]}
+              options={["Elétrico", "Hacth", "Picape", "Sedan", "SUV"]}
             />
           </div>
         </div>

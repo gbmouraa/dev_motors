@@ -33,7 +33,7 @@ export function Car({ data }: CarDataProps) {
             <DescriptionItem title="Ano" text={data.year} />
             <DescriptionItem title="KM" text={data.km} />
             <DescriptionItem title="Categoria" text={data.category} />
-            <DescriptionItem title="Cor" text="Preto" />
+            <DescriptionItem title="Cor" text={data.color} />
           </div>
           <div className="pt-8">
             <h2 className="text-xs">Descrição do veículo</h2>

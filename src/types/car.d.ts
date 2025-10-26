@@ -12,6 +12,7 @@ export interface CarProps {
   id?: string;
   name: string;
   model: string;
+  color: string;
   year: string;
   km: string;
   phone: string;
@@ -29,6 +30,7 @@ export interface CarItemProps {
   id: string;
   name: string;
   model: string;
+  // color: string;
   year: string;
   km: string;
   city: string;
