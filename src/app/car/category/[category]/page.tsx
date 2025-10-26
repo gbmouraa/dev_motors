@@ -1,9 +1,7 @@
 import { Container } from "@/components/container";
-import { Header } from "@/components/header";
 import { getCarsByCategory } from "@/lib/firebase/car";
 import { CarItem } from "@/components/car-item";
 import { CarItemProps } from "@/types/car";
-import { formatCategorySlug } from "@/utils/format-category-slug";
 import { BreadCrumbs } from "../../_components/bread-crumbs";
 
 type Props = {
@@ -13,7 +11,7 @@ type Props = {
 export default async function Category({ params }: Props) {
   const { category } = await params;
   const cars: CarItemProps[] | undefined = await getCarsByCategory(category);
-  const categoryText = formatCategorySlug(category);
+  const categoryText = decodeURIComponent(category);
 
   if (!cars) {
     return <div>Falha ao carregar carros, tente novamente mais tarde</div>;

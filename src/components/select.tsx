@@ -14,7 +14,7 @@ interface FormSelectProps {
   name: string;
   control: any;
   placeholder: string;
-  options: { label: string; value: string }[];
+  options: string[];
 }
 
 export function CategorySelect({
@@ -39,13 +39,13 @@ export function CategorySelect({
             </SelectTrigger>
             <SelectContent className="bg-white border-gray-300">
               <SelectGroup>
-                {options.map((opt) => (
+                {options.map((opt, idx) => (
                   <SelectItem
-                    key={opt.value}
-                    value={opt.value}
+                    key={idx}
+                    value={opt}
                     className="text-gray-500 cursor-pointer hover:bg-gray-300/80 transition-all hover:text-gray-800"
                   >
-                    {opt.label}
+                    {opt}
                   </SelectItem>
                 ))}
               </SelectGroup>

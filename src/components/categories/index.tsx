@@ -15,11 +15,11 @@ export interface CategoriesProps {
 
 export function Categories() {
   const categories: CategoriesProps[] = [
-    { category: "Carros elétricos", image: eletricoImg, slug: "eletrico" },
-    { category: "Hatches", image: hatchImg, slug: "hatch" },
-    { category: "Picapes", image: picapeImg, slug: "picape" },
-    { category: "Sedans", image: sedanImg, slug: "sedan" },
-    { category: "SUVs", image: suvImg, slug: "suv" },
+    { category: "Carros elétricos", image: eletricoImg, slug: "Elétrico" },
+    { category: "Hatches", image: hatchImg, slug: "Hatch" },
+    { category: "Picapes", image: picapeImg, slug: "Picape" },
+    { category: "Sedans", image: sedanImg, slug: "Sedan" },
+    { category: "SUVs", image: suvImg, slug: "SUV" },
   ];
 
   return (
