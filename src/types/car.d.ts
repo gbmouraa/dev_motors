@@ -39,4 +39,5 @@ export interface CarItemProps {
   isOnDashboard?: boolean;
   onClick?: () => void;
   isOnFavoritePage?: boolean;
+  isOnAlerDialogDeleteCar?: boolean;
 }
