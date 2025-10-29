@@ -26,9 +26,9 @@ export function Panel() {
           <div className="flex gap-5 items-center">
             <Link
               href="/dashboard"
-              className={`text-sm font-semibold py-1 border-b-2 border-transparent ${
+              className={`text-sm font-semibold py-1 border-b-2 border-transparent hover:border-b-gray-400  transition-all ${
                 pathname === "/dashboard"
-                  ? "text-gray-800 border-b-red-500"
+                  ? "text-gray-800 border-b-red-500 hover:border-b-red-500"
                   : "text-gray-500"
               }`}
             >
@@ -36,9 +36,9 @@ export function Panel() {
             </Link>
             <Link
               href="/add-new-car"
-              className={`text-sm font-semibold py-1 border-b-2 border-transparent ${
+              className={`text-sm font-semibold py-1 border-b-2 border-transparent hover:border-b-gray-400 transition-all ${
                 pathname === "/add-new-car"
-                  ? "text-gray-800 border-b-red-500"
+                  ? "text-gray-800 border-b-red-500 hover:border-b-red-500"
                   : "text-gray-500"
               }`}
             >
@@ -46,9 +46,9 @@ export function Panel() {
             </Link>
             <Link
               href="/favorites"
-              className={`text-sm font-semibold py-1 border-b-2 border-transparent ${
+              className={`text-sm font-semibold py-1 border-b-2 border-transparent hover:border-b-gray-400 transition-all ${
                 pathname === "/favorites"
-                  ? "text-gray-800 border-b-red-500"
+                  ? "text-gray-800 border-b-red-500 hover:border-b-red-500"
                   : "text-gray-500"
               }`}
             >
