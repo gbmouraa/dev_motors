@@ -7,6 +7,7 @@ import { AuthContext } from "@/context/auth-context";
 import { CarItemProps, DeleteCarParams } from "@/types/car";
 import { deleteCar } from "@/lib/firebase/storage";
 import { Loader } from "../../../components/loader";
+import { Car } from "lucide-react";
 
 export default function Dashboard() {
   const [cars, setCars] = useState<CarItemProps[]>([]);
@@ -41,11 +42,22 @@ export default function Dashboard() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="relative h-[200px]">
+        <Loader bg="bg-[#ECEDF2]" />
+      </div>
+    );
+  }
+
   return (
     <>
-      {isLoading ? (
-        <div className="relative h-[200px]">
-          <Loader bg="bg-[#ECEDF2]" />
+      {cars.length === 0 ? (
+        <div>
+          <p className="flex items-center text-gray-600 gap-2">
+            <Car size={20} />
+            Você não possui nenhum anuncio ativo.{" "}
+          </p>
         </div>
       ) : (
         <section className="flex md:flex-wrap flex-col gap-3 md:flex-row">
