@@ -26,11 +26,15 @@ export interface CarProps {
   created?: any;
 }
 
+export interface DeleteCarParams {
+  id: string;
+  images: CarImageProps[];
+}
+
 export interface CarItemProps {
   id: string;
   name: string;
   model: string;
-  // color: string;
   year: string;
   km: string;
   city: string;
@@ -40,4 +44,5 @@ export interface CarItemProps {
   onClick?: () => void;
   isOnFavoritePage?: boolean;
   isOnAlerDialogDeleteCar?: boolean;
+  handleDeleteCar?: (data: DeleteCarParams) => Promise<void>;
 }

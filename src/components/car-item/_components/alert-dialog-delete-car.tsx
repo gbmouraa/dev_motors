@@ -14,7 +14,14 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { CarItemProps } from "@/types/car";
 import { CarItem } from "..";
-import { deleteCar } from "@/lib/firebase/storage";
+
+interface AlertDialogDeleteCarProps
+  extends Pick<
+    CarItemProps,
+    "id" | "name" | "model" | "year" | "km" | "city" | "price" | "images"
+  > {
+  onConfirm: () => void;
+}
 
 export function AlertDialogDeleteCar({
   id,
@@ -25,11 +32,8 @@ export function AlertDialogDeleteCar({
   city,
   price,
   images,
-}: CarItemProps) {
-  // const handleDeleteCar = async () => {
-  //   await deleteCar(id, images);
-  // };
-
+  onConfirm,
+}: AlertDialogDeleteCarProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -57,23 +61,14 @@ export function AlertDialogDeleteCar({
           name={name}
           isOnAlerDialogDeleteCar
         />
-        {/* <div>
-          <span className="mb-2 block">{carName}</span>
-          <div className="relative w-full h-[160px] rounded-md overflow-hidden">
-            <Image
-              src={carImageUrl}
-              className="object-cover"
-              fill
-              quality={100}
-              alt={carName}
-            />
-          </div>
-        </div> */}
         <AlertDialogFooter>
           <AlertDialogCancel className="bg-white text-gray-600 cursor-pointer hover:shadow-md hover:text-gray-900">
             Cancelar
           </AlertDialogCancel>
-          <AlertDialogAction className="bg-neutral-800 hover:opacity-95 hover:shadow-md text-white cursor-pointer">
+          <AlertDialogAction
+            onClick={onConfirm}
+            className="bg-neutral-800 hover:opacity-95 hover:shadow-md text-white cursor-pointer"
+          >
             Excluir
           </AlertDialogAction>
         </AlertDialogFooter>

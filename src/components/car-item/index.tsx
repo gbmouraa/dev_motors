@@ -2,7 +2,7 @@ import Image from "next/image";
 import { formatCurrency } from "@/utils/format-currency";
 import { MapPin, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
-import { CarItemProps } from "@/types/car";
+import { CarItemProps, DeleteCarParams } from "@/types/car";
 import { AlertDialogDeleteCar } from "./_components/alert-dialog-delete-car";
 
 export function CarItem({
@@ -18,7 +18,15 @@ export function CarItem({
   onClick,
   isOnFavoritePage,
   isOnAlerDialogDeleteCar,
+  handleDeleteCar,
 }: CarItemProps) {
+  const handleDeleteClick = () => {
+    if (handleDeleteCar) {
+      const data: DeleteCarParams = { id, images };
+      handleDeleteCar(data);
+    }
+  };
+
   return (
     <div
       className={`relative ${
@@ -53,6 +61,7 @@ export function CarItem({
                 city={city}
                 price={price}
                 images={images}
+                onConfirm={handleDeleteClick}
               />
             </div>
           )}
