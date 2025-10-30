@@ -18,7 +18,7 @@ export default async function CarDetail({ params }: Props) {
         <Car data={car} />;
         <Container>
           <div className="-mt-10">
-            <RecomendedCars />
+            <RecomendedCars carID={id} />
           </div>
           <Categories />
         </Container>

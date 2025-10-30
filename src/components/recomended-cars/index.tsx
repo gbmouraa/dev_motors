@@ -8,7 +8,11 @@ import { RecomendedCarsCarousel } from "./_components/carousel";
 import { RecomendedCarsSkeleton } from "./_components/skeleton";
 import { AuthContext } from "@/context/auth-context";
 
-export function RecomendedCars() {
+interface RecomendedCarsProps {
+  carID?: string;
+}
+
+export function RecomendedCars({ carID }: RecomendedCarsProps) {
   const [cars, setCars] = useState<CarItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,7 +22,13 @@ export function RecomendedCars() {
     const fetchCars = async () => {
       try {
         const res = await getCars(user?.uid);
-        if (res) setCars(res);
+        if (res) {
+          if (carID) {
+            setCars(() => res.filter((car) => car.id !== carID));
+          } else {
+            setCars(res);
+          }
+        }
       } catch (err) {
       } finally {
         setIsLoading(false);
@@ -26,7 +36,7 @@ export function RecomendedCars() {
     };
 
     fetchCars();
-  }, [user]);
+  }, [user, carID]);
 
   return (
     <section className="w-full mt-14">
