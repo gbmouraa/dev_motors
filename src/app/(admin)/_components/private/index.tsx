@@ -8,7 +8,7 @@ export function Private({ children }: { children: React.ReactNode }) {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return <></>;
   }
 
   if (!user) redirect("/");
