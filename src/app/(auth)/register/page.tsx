@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/auth-context";
 import { Input } from "@/components/input";
@@ -17,18 +17,40 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function Register() {
+  const [defaultData, setDefaultData] = useState({
+    name: "",
+    email: "",
+  });
+
+  const { handleEmail, handleName, handleNameAndEmailStorage } =
+    useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onChange" });
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    mode: "onChange",
+    defaultValues: defaultData,
+  });
 
-  const { handleEmail, handleName } = useContext(AuthContext);
+  useEffect(() => {
+    const data = localStorage.getItem("@dev_carros_registration_data");
+    if (data) {
+      const user = JSON.parse(data);
+      setDefaultData({ name: user.name, email: user.email });
+      reset({ name: user.name, email: user.email });
+    }
+  }, [reset]);
+
   const router = useRouter();
 
   const onSubmit = ({ name, email }: FormData) => {
     handleName(name);
     handleEmail(email);
+    handleNameAndEmailStorage(name, email);
     router.push("register/password");
   };
 

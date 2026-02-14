@@ -8,6 +8,7 @@ import { Input } from "@/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 const schema = z
   .object({
@@ -28,25 +29,31 @@ export default function Password() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const { name, email, sigin } = useContext(AuthContext);
-
-  const router = useRouter();
-
+  const { name, email, signIn } = useContext(AuthContext);
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = ({ password }: FormData) => {
     startTransition(async () => {
-      await sigin(name, email, password);
+      await signIn(name, email, password);
+      localStorage.removeItem("@dev_carros_registration_data"); // Clear localStorage on successful registration
     });
   };
-
-  if (name === "" || email === "") router.push("/register");
 
   return (
     <div className="px-3 md:px-0">
       <section className="bg-white w-full max-w-[456px] mx-auto py-10 -translate-y-16 sm:-translate-y-[40%] rounded-lg px-8 shadow">
         <div>
           <h1 className="text-2xl mb-5">Crie uma senha para sua conta</h1>
+          <a
+            href="/register"
+            className="flex gap-x-2 text-xs items-center mb-5 text-gray-500 hover:text-gray-900"
+          >
+            {" "}
+            <div className="w-4 h-4 rounded-full border border-gray-500 flex justify-center items-center">
+              <ChevronLeft size={12} />
+            </div>
+            Voltar
+          </a>
           <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-96">
             <Input
               type="password"

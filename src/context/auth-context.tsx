@@ -24,8 +24,9 @@ interface AuthContextProps {
   loading: boolean;
   handleEmail: (email: string) => void;
   handleName: (name: string) => void;
+  handleNameAndEmailStorage: (name: string, email: string) => void;
   login: (email: string, password: string) => Promise<void>;
-  sigin: (name: string, email: string, password: string) => Promise<void>;
+  signIn: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -36,8 +37,9 @@ export const AuthContext = createContext<AuthContextProps>({
   loading: true,
   handleEmail: () => {},
   handleName: () => {},
+  handleNameAndEmailStorage: () => {},
   login: async () => {},
-  sigin: async () => {},
+  signIn: async () => {},
   logout: async () => {},
 });
 
@@ -55,7 +57,7 @@ export default function AuthContextProvider({
 
   useEffect(() => {
     const getUser = () => {
-      const userStorage = localStorage.getItem("@web_motors");
+      const userStorage = localStorage.getItem("@dev_motors");
       if (userStorage) {
         const userData = JSON.parse(userStorage);
         setUser(userData as UserProps);
@@ -68,6 +70,18 @@ export default function AuthContextProvider({
 
   const handleEmail = (email: string) => {
     setEmail(email);
+  };
+
+  const handleNameAndEmailStorage = (name: string, email: string) => {
+    const userData = {
+      name: name,
+      email: email,
+    };
+
+    localStorage.setItem(
+      "@dev_carros_registration_data",
+      JSON.stringify(userData),
+    );
   };
 
   const handleName = (name: string) => {
@@ -83,13 +97,13 @@ export default function AuthContextProvider({
           name: firebaseUser.user.displayName || "",
         };
 
-        localStorage.setItem("@web_motors", JSON.stringify(userData));
+        localStorage.setItem("@dev_motors", JSON.stringify(userData));
         setUser(userData);
-      }
+      },
     );
   };
 
-  const sigin = async (name: string, email: string, password: string) => {
+  const signIn = async (name: string, email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (firebaseUser) => {
         if (auth.currentUser) {
@@ -107,7 +121,7 @@ export default function AuthContextProvider({
           uid: firebaseUser.user.uid,
         };
 
-        localStorage.setItem("@web_motors", JSON.stringify(userData));
+        localStorage.setItem("@dev_motors", JSON.stringify(userData));
         setUser(userData);
         router.push("/dashboard");
       })
@@ -118,7 +132,7 @@ export default function AuthContextProvider({
 
   const logout = async () => {
     await signOut(auth).then(() => {
-      localStorage.removeItem("@web_motors");
+      localStorage.removeItem("@dev_motors");
       setUser(null);
     });
   };
@@ -131,8 +145,9 @@ export default function AuthContextProvider({
         handleName,
         email,
         handleEmail,
+        handleNameAndEmailStorage,
         login,
-        sigin,
+        signIn,
         logout,
         loading,
       }}
