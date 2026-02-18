@@ -1,7 +1,6 @@
 "use client";
 
 import { useContext, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/auth-context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/input";
@@ -9,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const schema = z
   .object({
@@ -34,8 +35,19 @@ export default function Password() {
 
   const onSubmit = ({ password }: FormData) => {
     startTransition(async () => {
-      await signIn(name, email, password);
-      localStorage.removeItem("@dev_carros_registration_data"); // Clear localStorage on successful registration
+      try {
+        await signIn(name, email, password);
+        localStorage.removeItem("@dev_carros_registration_data");
+      } catch (error: unknown) {
+        if (error instanceof Error && "code" in error) {
+          const firebaseError = error as { code: string };
+          if (firebaseError.code === "auth/email-already-in-use") {
+            toast.error("Este email já está sendo usado");
+            return;
+          }
+        }
+        toast.error("Erro ao criar conta. Tente novamente.");
+      }
     });
   };
 
@@ -96,6 +108,7 @@ export default function Password() {
           </p>
         </div>
       </section>
+      <Toaster />
     </div>
   );
 }

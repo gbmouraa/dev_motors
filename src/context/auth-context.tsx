@@ -126,7 +126,7 @@ export default function AuthContextProvider({
         router.push("/dashboard");
       })
       .catch((err) => {
-        console.log(err);
+        throw err;
       });
   };
 
