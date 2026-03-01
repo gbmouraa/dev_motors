@@ -77,7 +77,7 @@ export default function Register() {
               error={errors.email?.message}
             />
             <small className="text-gray-500 block my-7 text-xs">
-              Ao me cadastrar, eu declaro ter ciência de que sete cadastro é
+              Ao me cadastrar, eu declaro ter ciência de que este cadastro é
               somente para maiores de 18 anos.
             </small>
             <button
