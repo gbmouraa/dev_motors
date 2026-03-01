@@ -4,11 +4,7 @@ import { CarItem } from "@/components/car-item";
 import { getCarBySearch } from "@/lib/firebase/car";
 import { BreadCrumbs } from "../../_components/bread-crumbs";
 
-type Props = {
-  params: { query: string };
-};
-
-export default async function SearchCar({ params }: Props) {
+export default async function SearchCar({ params }: { params: Promise<{ query: string }> }) {
   const { query } = await params;
 
   const cars: CarItemProps[] | undefined = await getCarBySearch(

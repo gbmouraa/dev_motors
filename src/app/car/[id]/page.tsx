@@ -4,11 +4,7 @@ import { Container } from "../../../components/container";
 import { RecomendedCars } from "../../../components/recomended-cars";
 import { Categories } from "../../../components/categories";
 
-type Props = {
-  params: { id: string };
-};
-
-export default async function CarDetail({ params }: Props) {
+export default async function CarDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const car = await getCar(id);
 
