@@ -4,11 +4,7 @@ import { CarItem } from "@/components/car-item";
 import { CarItemProps } from "@/types/car";
 import { BreadCrumbs } from "../../_components/bread-crumbs";
 
-type Props = {
-  params: { category: string };
-};
-
-export default async function Category({ params }: Props) {
+export default async function Category({ params }: { params: Promise<{ category: string }> }) {
   const { category } = await params;
   const cars: CarItemProps[] | undefined = await getCarsByCategory(category);
   const categoryText = decodeURIComponent(category);

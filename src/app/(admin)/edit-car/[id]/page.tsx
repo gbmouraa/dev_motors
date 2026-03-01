@@ -2,9 +2,11 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase-connection";
 import { CarForm } from "../../_components/car-form";
 import { CarProps } from "@/types/car";
+import { Metadata } from "next";
 
-type Props = {
-  params: { id: string };
+export const metadata: Metadata = {
+  title: "Editar Carro | Dev Carros",
+  description: "Edite as informações de um carro",
 };
 
 const getCar = async (documentId: string): Promise<CarProps | null> => {
@@ -26,7 +28,7 @@ const getCar = async (documentId: string): Promise<CarProps | null> => {
   }
 };
 
-export default async function EditCar({ params }: Props) {
+export default async function EditCar({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const car = await getCar(id);
 
